@@ -3,31 +3,24 @@
 |组件参数：config|说明|
 |----|----|
 |canMove|是否可滑动|
-|size|元素大小（基于rpx，最大750）|
-|startAngle|起始角度（参考canvas画圆0在3点钟方向）|
-|allAngle|整个弧形的长度（0-360）|
-|nowRatio|当前滑动比例|
-|bgColor|底部线背景色|
-|actColor|滑动线背景色|
+|size|元素直径(rpx)|
+|start|起始位置(0-100 0为12点钟方向)|
+|arcLength|弧长(0-100 如：50为半圆)|
+|modelValue|滑块当前位置(百分比)|
+|bgColor|弧线底部线背景色|
+|actColor|弧线活动色|
 |dotColor|滑块背景色|
-|dotRatio|滑块半径占元素百分比|
-|lineRatio|线宽占元素百分比|
+|dotSize|滑块大小(rpx)|
+|lineWidth|弧线宽度(rpx)|
+|showDot|是否显示滑块|
+|showActLine|是否显示动态弧线|
 
 ####使用示例
 
-    <arc-slider :config="sliderInfo"/>
-    const sliderInfo = {
-	      canMove: true,
-	      size: 600,
-	      startAngle: 300,
-	      allAngle: 120,
-	      nowRatio: 50,
-	      bgColor: '#F5F6F7',
-	      actColor: '#813ACB',
-	      dotColor: '#FFF',
-	      dotRatio: 16,
-	      lineRatio: 20
-    }
+    <arc-slider v-model="nowRatio"/>
+    const nowRatio = ref<number>(50)
 
 #####多端支持请自行测试
+#####可扫码进小程序体验 主要针对小程序端实现
 #####有问题咨询本人，不限于创意需求，本插件仅为基础版本
+#####如果对您有帮助 请记得点点star
