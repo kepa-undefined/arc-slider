@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, getCurrentInstance, nextTick, onMounted } from "vue";
 
 /* _____________⬇️rpx转px⬇️_____________ */
 
@@ -25,17 +25,17 @@ const RpxToPx = (rpx: number) => {
 
 interface Config {
   canMove?: boolean, // 是否可滑动
-  size: number, // 元素直径(rpx)
-  start: number, // 起始位置(0-100 0为12点钟方向)
-  arcLength: number, // 弧长(0-100 如：50为半圆)
-  modelValue: number, // 滑块当前位置(百分比)
-  bgColor: string, // 弧线底部线背景色
-  actColor: string, // 弧线活动色
-  dotColor: string, // 滑块背景色
-  dotSize: number, // 滑块大小(rpx)
-  lineWidth: number, // 弧线宽度(rpx)
-  showDot: boolean, // 是否显示滑块
-  showActLine: boolean, // 是否显示动态弧线
+  size?: number, // 元素直径(rpx)
+  start?: number, // 起始位置(0-100 0为12点钟方向)
+  arcLength?: number, // 弧长(0-100 如：50为半圆)
+  modelValue?: number, // 滑块当前位置(百分比)
+  bgColor?: string, // 弧线底部线背景色
+  actColor?: string, // 弧线活动色
+  dotColor?: string, // 滑块背景色
+  dotSize?: number, // 滑块大小(rpx)
+  lineWidth?: number, // 弧线宽度(rpx)
+  showDot?: boolean, // 是否显示滑块
+  showActLine?: boolean, // 是否显示动态弧线
 }
 const props = withDefaults(defineProps<Config>(), {
   canMove: true,
@@ -112,6 +112,9 @@ const actEndDot = computed(() => { // 当前滑动弧线圆角位置
 /* _____________⬇️触摸和滑动事件⬇️_____________ */
 
 const onMouseMove = (e: any) => {
+  // #ifdef H5
+	e.preventDefault()
+	// #endif
   if (!props.canMove) return
   const { changedTouches } = e
   const x = changedTouches[0].pageX
@@ -158,10 +161,10 @@ const calcDotPosition = (num: number) => {
 /* _____________⬇️获取元素偏移量⬇️_____________ */
 
 const arcOffset = ref({ top: 0, left: 0 }) // 容器偏移量
-// #ifdef MP-WEIXIN
+// #ifdef MP
 const query = uni.createSelectorQuery().in(getCurrentInstance())
 // #endif
-// #ifdef APP-PLUS
+// #ifndef MP
 const query = uni.createSelectorQuery()
 // #endif
 const init = async () => {
@@ -174,7 +177,7 @@ const init = async () => {
   await calcDotPosition(props.modelValue)
 }
 
-init()
+onMounted(() => init())
 </script>
 
 <style lang="scss" scoped>

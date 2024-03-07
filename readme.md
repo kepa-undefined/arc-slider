@@ -1,3 +1,7 @@
+### 3.0.1 ###
++ 修复部分平台初始化失败问题
++ 新增兼容web端，个别浏览器未验证
+
 #### 参数配置
 
 |组件参数：config|说明|
@@ -17,7 +21,9 @@
 
 #### 使用示例
 
-    <arc-slider v-model="nowRatio"/>
+    <arc-slider v-model="nowRatio">
+      <view>{{ nowRatio }}<view/>
+    <arc-slider/>
     const nowRatio = ref<number>(50)
 
 ##### 多端支持请自行测试
